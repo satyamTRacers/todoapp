@@ -2,53 +2,59 @@ import React, { Component } from 'react';
 import './App.css';
 import TodoList from './TodoList';
 import AddTodoItem from './AddTodoItem';
+import { getTasksApi, createTaskApi, deleteTaskApi, updateTaskStatusApi } from './api.js';
 
-let todoItems=[
-  {text:"wash cloth",completed:false,index:0},
-  {text:"feed cat",completed:false,index:1},
-  {text:"feed cat to dog",completed:true,index:2}
-];
-let globalIndex=3;
 class App extends React.Component {
-  constructor (props) {
+  constructor(props) {
     super(props);
+    this.state = { todoItems: [] };
+    getTasksApi((error, tasks) => {
+      if (!error)
+        this.setState({ todoItems: tasks });
+
+    });
     this.addTask = this.addTask.bind(this);
-    this.markComplete=this.markComplete.bind(this);
-    this.deleteTask=this.deleteTask.bind(this);
+    this.markComplete = this.markComplete.bind(this);
+    this.deleteTask = this.deleteTask.bind(this);
   }
   addTask(text) {
-   todoItems.push({
-     text,
-     completed:false,
-     index:globalIndex++
-   });
-    this.setState({todoItems: todoItems});
-  }
-  markComplete(index){
-for(let i=0;i<todoItems.length;i++){
-  if(todoItems[i].index==index){
-    todoItems[i].completed=true;
-  }
-}
-    this.setState({todoItems:todoItems});
-  }
-  deleteTask(index){
-    for(let i=0;i<todoItems.length;i++){
-      if(todoItems[i].index==index){
-        todoItems.splice(i,1);
+    createTaskApi(text, (error, response) => {
+      if (!error) {
+        getTasksApi((error, tasks) => {
+          if (!error)
+            this.setState({ todoItems: tasks });
+        });
       }
-    }
-    this.setState({todoItems:todoItems});
+    })
+  }
+  markComplete(id) {
+    updateTaskStatusApi(id, (error, response) => {
+      if (!error) {
+        getTasksApi((error, tasks) => {
+          if (!error)
+            this.setState({ todoItems: tasks });
+        });
+      }
+    })
+  }
+  deleteTask(id) {
+    deleteTaskApi(id, (error, response) => {
+      if (!error) {
+        getTasksApi((error, tasks) => {
+          if (!error)
+            this.setState({ todoItems: tasks });
+        });
+      }
+    });
   }
   render() {
     return (
       <div id="main">
         <h3>Managage Your Tasks</h3>
-        <TodoList items={todoItems} markComplete={this.markComplete} deleteTask={this.deleteTask}/>
+        <TodoList items={this.state.todoItems} markComplete={this.markComplete} deleteTask={this.deleteTask} />
         <AddTodoItem addTask={this.addTask} />
       </div>
     );
   }
 }
-
 export default App;
