@@ -14,7 +14,7 @@ class AddTodoItem extends Component {
   render() {
     const {text} = this.state;
     return (
-      <div>
+      <div className='add-todo'>
         <input onChange={this.handleChange}/>
         <button 
           onClick={() => this.props.addTask(text)}>

@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 
 const TodoList=(props)=>{
   const items = props.items.map((item, index) =>(
-    <li key={index}>
+    <li key={index} className='todo-item'>
       <div>
         {
           item.completed 
@@ -11,13 +11,13 @@ const TodoList=(props)=>{
         }
 
         {
-          !item.completed && <button style={{ marginLeft: '150px' }}
-          onClick={() => this.props.markComplete(item.id)}>Mark Complete</button>
+          !item.completed && <button className='mark-complete'
+          onClick={() => props.markComplete(item.id)}>Mark Complete</button>
         }
         
         {
-          <button style={{ marginLeft: '100px' }}
-          onClick={() => this.props.deleteTask(item.id)}>Delete Task</button>
+          <button className='delete-task'
+          onClick={() => props.deleteTask(item.id)}>Delete Task</button>
         }
       </div>
     </li>

@@ -6,13 +6,22 @@ body {
 ul{
   list-style-type: none;
 }
+button{
+  padding:3px;
+  color:#333;
+
+}
 #main{
   display: flex;
   flex-direction: row;
 }
+.task{
+  flex:2;
+  background-color: lightcoral;
+}
 .chat{
   background-color: honeydew;
-  flex:1;
+  flex:1.5;
   padding:100px;
   margin-left: 100px;
   height:600px;
@@ -26,4 +35,25 @@ ul{
 }
 textarea{
   resize: none;
+}
+.heading{
+  text-align: center;
+}
+.todo-item{
+  position: relative;
+  margin-bottom: 10px;
+}
+.todo-item .mark-complete{
+  position: absolute;
+  right:10px;
+}
+.todo-item .delete-task{
+  position: absolute;
+  right:130px;
+}
+.add-todo{
+  width:100%;
+}
+.add-todo input{
+  width:80%;
 }

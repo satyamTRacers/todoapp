@@ -79,7 +79,7 @@ render() {
   return (
     <div id="main">
       <div className="task">
-        <h3>Managage Your Tasks</h3>
+        <h3 className='heading'>Managage Your Tasks</h3>
         <TodoList items={this.state.todoItems} 
           markComplete={this.markComplete} 
           deleteTask={this.deleteTask} 
