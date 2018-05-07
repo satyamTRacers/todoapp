@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React from 'react';
 
 const TodoList=(props)=>{
   const items = props.items.map((item, index) =>(

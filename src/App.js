@@ -11,7 +11,12 @@ const ENDPOINT_URL='http://localhost:3001';
 class App extends Component {
   constructor(props) {
     super(props);
-    this.state = { todoItems: [],chatMessages:[],chatMessageText:''};
+    this.state = {
+      todoItems: [],
+      chatMessages:[],
+      chatMessageText:''
+    };
+    
     this.socket=socketIOClient(ENDPOINT_URL);
     this.addTask = this.addTask.bind(this);
     this.markComplete = this.markComplete.bind(this);
