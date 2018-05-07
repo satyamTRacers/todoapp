@@ -12,7 +12,7 @@ export const getTasksApi = (callback) => {
 }
 
 export const deleteTaskApi = (id, callback) => {
-    fetch(`${API_URL}/deleteTask`, {
+    fetch(`${API_URL}/task`, {
         method: 'DELETE',
         headers: {
             'Content-Type': 'application/json'
@@ -27,7 +27,7 @@ export const deleteTaskApi = (id, callback) => {
     })
 }
 export const createTaskApi = (text, callback) => {
-    fetch(`${API_URL}/addTask`, {
+    fetch(`${API_URL}/task`, {
         method: 'POST',
         headers: {
             'Content-Type': 'application/json'
