@@ -13,7 +13,8 @@ export default class TodoList extends Component {
             {
               <button style={{ marginLeft: '100px' }} onClick={() => this.props.deleteTask(item.id)}>Delete Task</button>
             }
-          </div></li>
+          </div>
+        </li>
       );
     });
     return (

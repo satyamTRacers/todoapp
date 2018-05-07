@@ -4,14 +4,13 @@ export default class AddTodoItem extends Component{
     state={
         text:''
     }
-constructor(props){
+    constructor(props){
     super(props);
     this.handleChange=this.handleChange.bind(this);
-}
+    }
     handleChange(e){
-        e.preventDefault();
+       e.preventDefault();
        this.setState({text:e.target.value});
-       console.log(this.state.text);
     }
     render(){
         return(
