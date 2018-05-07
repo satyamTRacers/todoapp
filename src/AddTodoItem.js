@@ -1,24 +1,28 @@
 import React,{Component} from 'react';
 
-export default class AddTodoItem extends Component{
-    state={
-        text:''
-    }
-constructor(props){
+class AddTodoItem extends Component {
+  constructor(props) {
     super(props);
-    this.handleChange=this.handleChange.bind(this);
+    this.state = {text:''};
+    this.handleChange = this.handleChange.bind(this);
+  }
+   
+  handleChange(e) {
+    this.setState({text: e.target.value});
+  }
+   
+  render() {
+    const {text} = this.state;
+    return (
+      <div>
+        <input onChange={this.handleChange}/>
+        <button 
+          onClick={() => this.props.addTask(text)}>
+          ADD TASK
+        </button>
+      </div>
+    )
+  }
 }
-    handleChange(e){
-        e.preventDefault();
-       this.setState({text:e.target.value});
-       console.log(this.state.text);
-    }
-    render(){
-        return(
-            <div>
-                <input name="itemText" onChange={this.handleChange}/>
-                <button onClick={()=>this.props.addTask(this.state.text)}>ADD TASK</button>
-            </div>
-        )
-    }
-}
+
+export default AddTodoItem;
