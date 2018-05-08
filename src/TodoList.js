@@ -1,12 +1,12 @@
 import React from 'react';
 
-const TodoList=(props)=>{
+const TodoList = (props) => {
   const items = props.items.map((item, index) =>(
-    <li key={index} className='todo-item'>
+    <li key={index} className = 'todo-item'>
       <div>
         {
           item.completed 
-          ? <span style={{ textDecoration: 'line-through' }}>{item.text}</span> 
+          ? <span style = {{ textDecoration: 'line-through' }}>{item.text}</span> 
           : <span>{item.text}</span>
         }
 

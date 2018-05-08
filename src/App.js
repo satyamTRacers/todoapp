@@ -17,13 +17,13 @@ class App extends Component {
       chatMessageText:''
     };
     
-    this.socket=socketIOClient(ENDPOINT_URL);
+    this.socket = socketIOClient(ENDPOINT_URL);
     this.addTask = this.addTask.bind(this);
     this.markComplete = this.markComplete.bind(this);
     this.deleteTask = this.deleteTask.bind(this);
-    this.sendMessage=this.sendMessage.bind(this);
-    this.addMessageToList=this.addMessageToList.bind(this);
-    this.handleChatMessageChange=this.handleChatMessageChange.bind(this);
+    this.sendMessage = this.sendMessage.bind(this);
+    this.addMessageToList = this.addMessageToList.bind(this);
+    this.handleChatMessageChange = this.handleChatMessageChange.bind(this);
   }
 
 componentDidMount(){
@@ -31,17 +31,16 @@ componentDidMount(){
     if (!error) this.setState({ todoItems: tasks });
   });
   this.socket.on('receive message',(message)=>{
-    console.log('method called');
     this.addMessageToList(message);
   });
 }
 
-addTask(text) {
-  createTaskApi(text, (error, response) => {
+addTask(task) {
+  createTaskApi(task, (error, response) => {
     if (!error) {
-      getTasksApi((error, tasks) => {
-        if (!error) this.setState({ todoItems: tasks });
-        });
+      this.setState(prevState=>({
+        todoItems:[...prevState.todoItems,task]
+      }));
       }
     })
 }
@@ -49,9 +48,11 @@ addTask(text) {
 markComplete(id) {
   updateTaskStatusApi(id, (error, response) => {
     if (!error) {
-      getTasksApi((error, tasks) => {
-        if (!error) this.setState({ todoItems: tasks });
+      let {todoItems} = this.state;
+      todoItems.forEach(item => {
+        if(item.id === id) item.completed=true;
       });
+      this.setState({todoItems});
     }
   })
 }
@@ -59,16 +60,16 @@ markComplete(id) {
 deleteTask(id) {
   deleteTaskApi(id, (error, response) => {
     if (!error) {
-      getTasksApi((error, tasks) => {
-        if (!error)
-          this.setState({ todoItems: tasks });
-        });
+      let {todoItems} = this.state;
+      let filteredTodoItems = todoItems.filter(item => item.id !== id);
+      this.setState({todoItems:filteredTodoItems});
       }
     });
 }
 
 sendMessage(){
   this.socket.emit('send message',this.state.chatMessageText);
+  this.setState({chatMessageText:''});
 }
 
 addMessageToList(message){
@@ -80,21 +81,23 @@ handleChatMessageChange(e){
 }
 
 render() {
-  const {chatMessages}=this.state;
+  const {chatMessages,chatMessageText} = this.state;
   return (
-    <div id="main">
-      <div className="task">
-        <h3 className='heading'>Managage Your Tasks</h3>
-        <TodoList items={this.state.todoItems} 
-          markComplete={this.markComplete} 
-          deleteTask={this.deleteTask} 
+    <div id = "main">
+      <div className = "task">
+        <h3 className = 'heading'>Managage Your Tasks</h3>
+        <TodoList items = {this.state.todoItems} 
+          markComplete = {this.markComplete} 
+          deleteTask = {this.deleteTask} 
         />
-        <AddTodoItem addTask={this.addTask} />        
+        <AddTodoItem addTask = {this.addTask} />        
       </div>
-      <div className="chat">
-        <ChatMessages chatMessages={chatMessages}/>
-        <textarea name="chatMessageText" className="chat-input" onChange={this.handleChatMessageChange} />
-        <button onClick={this.sendMessage}>SEND</button>
+      <div className = "chat">
+        <ChatMessages chatMessages = {chatMessages}/>
+        <textarea name = "chatMessageText" className = "chat-input" value = {chatMessageText} 
+        onChange = {this.handleChatMessageChange} placeholder = 'Type your message here'
+        />
+        <button onClick = {this.sendMessage}>SEND</button>
       </div>
     </div>
     );

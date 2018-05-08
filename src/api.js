@@ -6,8 +6,8 @@ export const getTasksApi = (callback) => {
     if(!response.ok) throw Error(response.statusText);
     return response;
   })
-  .then(response=>response.json())
-  .then(response=>{
+  .then(response => response.json())
+  .then(response => {
     callback(null,response.tasks);
   })
   .catch(error => {
@@ -23,11 +23,11 @@ export const deleteTaskApi = (id, callback) => {
     },
     body: JSON.stringify({id})
   })
-  .then(response=>{
+  .then(response => {
     if(!response.ok) throw Error(response.statusText);
     return response;
   })
-  .then(response=>response.json())
+  .then(response => response.json())
   .then(response => {
     callback(null, response);
   })
@@ -36,13 +36,13 @@ export const deleteTaskApi = (id, callback) => {
   })
 }
 
-export const createTaskApi = (text, callback) => {
+export const createTaskApi = (task, callback) => {
   fetch(`${API_URL}/task`, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json'
     },
-    body: JSON.stringify({text})
+    body: JSON.stringify({...task})
   })
   .then(response => {
     if(!response.ok) throw Error(response.statusText);
