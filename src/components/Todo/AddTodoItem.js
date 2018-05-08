@@ -1,7 +1,6 @@
 import React,{Component} from 'react';
 
 class AddTodoItem extends Component {
-
   constructor(props) {
     super(props);
     this.state = {text:''};
@@ -13,10 +12,10 @@ class AddTodoItem extends Component {
     this.setState({text: e.target.value});
   }
 
-  addTask(){
+  addTask() {
     const {text} = this.state;
     const task = {
-      id:'_'+Math.random().toString(36).substr(2,9),
+      id:new Date().getTime(),
       completed:false,
       text
     };

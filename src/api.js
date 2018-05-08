@@ -1,7 +1,8 @@
-const API_URL = 'http://localhost:3001';
+const ENDPOINT_URL = process.env.ENDPOINT_URL||'http://localhost:3001';
+const headers={'Content-Type':'application/json'};
 
-export const getTasksApi = (callback) => {
-  fetch(`${API_URL}/tasks`)
+const getTasksApi = (callback) => {
+  fetch(`${ENDPOINT_URL}/tasks`)
   .then(response => {
     if(!response.ok) throw Error(response.statusText);
     return response;
@@ -15,13 +16,11 @@ export const getTasksApi = (callback) => {
   })
 }
 
-export const deleteTaskApi = (id, callback) => {
-  fetch(`${API_URL}/task`, {
+const deleteTaskApi = (id, callback) => {
+  fetch(`${ENDPOINT_URL}/task`, {
     method: 'DELETE',
-    headers: {
-      'Content-Type': 'application/json'
-    },
-    body: JSON.stringify({id})
+    body: JSON.stringify({id}),
+    headers
   })
   .then(response => {
     if(!response.ok) throw Error(response.statusText);
@@ -36,13 +35,11 @@ export const deleteTaskApi = (id, callback) => {
   })
 }
 
-export const createTaskApi = (task, callback) => {
-  fetch(`${API_URL}/task`, {
+const createTaskApi = (task, callback) => {
+  fetch(`${ENDPOINT_URL}/task`, {
     method: 'POST',
-    headers: {
-      'Content-Type': 'application/json'
-    },
-    body: JSON.stringify({...task})
+    body: JSON.stringify({...task}),
+    headers
   })
   .then(response => {
     if(!response.ok) throw Error(response.statusText);
@@ -51,19 +48,17 @@ export const createTaskApi = (task, callback) => {
   .then(response => response.json())
   .then(response => {
     callback(null, response);
-    })
+  })
   .catch(error => {
     callback(error);
   });
 }
 
-export const updateTaskStatusApi = (id, callback) => {
-  fetch(`${API_URL}/updateTaskStatus`, {
+const updateTaskStatusApi = (id, callback) => {
+  fetch(`${ENDPOINT_URL}/updateTaskStatus`, {
     method: 'PUT',
-    headers: {
-      'Content-Type': 'application/json'
-    },
-    body: JSON.stringify({id})
+    body: JSON.stringify({id}),
+    headers
     })
   .then(response => {
     if(!response.ok) throw Error(response.statusText);
@@ -77,3 +72,10 @@ export const updateTaskStatusApi = (id, callback) => {
     callback(error);
   });
 }
+
+module.exports={
+  getTasksApi,
+  createTaskApi,
+  updateTaskStatusApi,
+  deleteTaskApi
+};
