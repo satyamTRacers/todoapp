@@ -5,21 +5,28 @@ class AddTodoItem extends Component {
     super(props);
     this.state = {text:''};
     this.handleChange = this.handleChange.bind(this);
+    this.addTask = this.addTask.bind(this);
   }
    
   handleChange(e) {
     this.setState({text: e.target.value});
   }
-   
-  render() {
+
+  addTask() {
     const {text} = this.state;
+    const task = {
+      id:new Date().getTime(),
+      completed:false,
+      text
+    };
+    this.props.addTask(task);
+  }
+
+  render() {
     return (
-      <div>
-        <input onChange={this.handleChange}/>
-        <button 
-          onClick={() => this.props.addTask(text)}>
-          ADD TASK
-        </button>
+      <div className = 'add-todo'>
+        <input onChange = {this.handleChange}/>
+        <button onClick = {this.addTask}>ADD TASK</button>
       </div>
     )
   }
